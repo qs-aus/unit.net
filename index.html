@@ -1434,22 +1434,217 @@ html[data-wallpaper="amber"] .wallpaper{ filter:hue-rotate(155deg) saturate(1.25
 
   /* ---------------- virtual file system ---------------- */
   const FS_KEY = 'fs';
+  const DOC_README = `UNITNet · OFFLINE DESKTOP
+FIELD README — BUILD 7.4.1
+
+UNITNet is a self-contained desktop environment built for the Unified Intelligence Taskforce. It presents a schematic control deck: a dark blueprint wallpaper, cyan telemetry, corner brackets, status chips, and a dock of systems that open in movable windows. Every application is local. There is no server, no account, no analytics service and no network request. Once the files are on your machine, the environment continues to work with the network disabled.
+
+WHAT IS INCLUDED
+The shell provides sixty applications across command, productivity, creative and games categories. Command Centre summarises readiness; Radar, Threat Board, Comms and Containment simulate operational tools. File Manager, Terminal, Notepad and Archive & Backup manage local data. Sketchpad, Blueprint Gallery, Synth Lab and the CCTV wall produce real files. The five games are Tic-Tac-Toe, Minefield, Serpent Protocol, 2048 Grid and Memory Array. The Field Manual contains detailed instructions and can export every section as a text file.
+
+STARTING THE ENVIRONMENT
+Open index.html directly, or serve the folder with python3 -m http.server 3000. UNITNet.html is a single-file build with all styles and scripts inlined. No installation step is required. The boot sequence runs automatically; press SKIP to enter the desktop immediately. On first launch the virtual filesystem is seeded with this readme, an operations briefing, a species index and a system log. The seeded documents are deliberately substantial so that the terminal feels like an operational system rather than an empty demo.
+
+THE DESKTOP
+Desktop icons open with a double-click, or a single tap on a touch screen. Right-click empty desktop space, or press and hold on touch, for the context menu. It offers a new note, the terminal, the application directory, show desktop, window arrangement, wallpaper cycling, quick settings and session lock. The control centre, reached from the sliders button or the clock, gathers brightness, accent colour, wallpaper, interface sound, scanlines, desktop icons and recent notifications. The sticky note opens the calendar. The dock holds pinned systems, every open window, the on-screen keyboard, settings and power.
+
+KEYBOARD AND WINDOWS
+Ctrl+K opens the command palette. Ctrl+Space opens the application directory. Alt+Tab cycles windows and Alt+W closes the focused window. Ctrl+D hides or restores the desktop. Ctrl+Alt+Left and Right snap the focused window, Ctrl+Alt+Up maximises it, and Ctrl+Shift+L locks the session. Escape dismisses overlays. Drag a window by its title bar, resize from the lower-right corner, or snap it by dragging to a screen edge. Double-click a title bar to maximise.
+
+FILES AND DOWNLOADS
+File Manager and Terminal share a virtual filesystem. Notepad notes autosave locally, and text exports are written to /downloads as well as downloaded through the browser. Exports include text, Markdown, CSV, calendar, vCard, PNG, SVG, WAV, JSON and log files. The Downloads application keeps a register and can re-issue text exports. Nothing is uploaded; every download is constructed in the browser from a Blob.
+
+LOCAL DATA AND PRIVACY
+All state is stored in localStorage under keys beginning with unitnet:. Existing unit7: data is migrated on first launch. Archive & Backup exports a complete JSON snapshot and can restore it on another machine. A factory reset clears every unitnet: key and reloads the shell. Because storage is local to the browser profile, clearing site data also clears the environment.
+
+SESSION SECURITY
+The lock button, Ctrl+Shift+L or Power → Lock session opens the authentication screen. The default session PIN is 1968. Change it in Settings, where start-up locking can also be enabled. The PIN is a themed shell lock, not disk encryption; anyone with access to this browser profile can read the underlying local data. Treat it as a control-deck courtesy lock, not a security boundary.
+
+RECOVERY
+If an application fails, close its window and relaunch it. If the interface becomes unresponsive, reload the page; local data is retained. If a setting causes a problem, reopen Settings or use the control centre. For a clean state, use Archive & Backup first, then Factory reset. Diagnostics runs eight self-tests and can export a report.
+
+UNITNet is an unofficial fan project inspired by the UNIT aesthetic. All incidents, personnel and telemetry are fictional. Radar, weather, seismic and vortex readings are simulations, not live data.`;
+  const DOC_BRIEFING = `UNIT OPERATIONS · BRIEFING 7741
+CLASSIFICATION: LEVEL 4 — CONTROL DECK DISTRIBUTION
+FROM: KATE STEWART, CHIEF SCIENTIFIC OFFICER
+TO: DUTY OFFICERS, CONTROL DECK 04-A
+SUBJECT: NIGHT SHIFT TRANSITION AND EAST WING QUARANTINE
+TIME OF ISSUE: 06:40 LOCAL
+
+1. SITUATION
+The overnight watch reports a quiet metropolitan picture with one persistent exception. The East Wing remains under temporal quarantine following the unregistered displacement recorded in the early hours of Tuesday. Corridor EA-7 measures forty metres by survey and approximately four thousand metres by lidar. Two independent anchors agree on the discrepancy, so the reading is not a sensor fault. The quarantine has held for nine hours without a breach. All other decks are nominal, the secure channel is clean, and the archive link is operating at reduced but acceptable bandwidth.
+
+2. INTENT
+The day shift will preserve containment, complete the scheduled attestation of Vault 12, and hand over a clean operational picture at 18:00. We are not attempting to resolve the East Wing anomaly today. We are containing it, documenting it and keeping unnecessary personnel away from it. Scientific curiosity is not a justification for entering a corridor that disagrees with its own floor plan.
+
+3. PRIORITIES
+First, protect the temporal anchors and confirm they remain synchronised. Second, complete the personnel attestation before 11:00 so that clearance records are current. Third, verify the blast-door bus and the manual release for EA-7. Fourth, review the overnight radar log for the unidentified contact at 03:12. Fifth, prepare the weekly archive transfer. Routine administrative work continues, but it does not outrank containment.
+
+4. EAST WING
+Only clearance level four and above may approach EA-7, and no one enters alone. Standing Order 4 applies without exception. The outer door remains sealed. The inner door remains powered down. Do not attempt to measure the corridor by walking it. Do not send drones beyond the first threshold. If the anchor drift exceeds 0.8 percent, evacuate the wing and notify Control immediately. If you hear a sound from the corridor, log it, note the time and do not open the door to investigate.
+
+5. PERSONNEL
+All officers report to Control Deck at 09:30 for the shift briefing. If you cannot attend, notify Signals before 09:00. Medical will conduct the standard post-conversion screening for the two officers who responded to the factory incident; this is routine and not a cause for alarm. Osgood is analysing the scale fragment from Vault 2 and should not be interrupted unless containment requires it. Vance is the archive point of contact. Reyes holds blast-door authority for the East Wing.
+
+6. COMMUNICATIONS
+Primary traffic runs on 458.712 MHz. Field Ops uses 461.220 MHz. Containment uses 463.905 MHz. Keep transmissions short and factual. Do not discuss the East Wing on open channels. The emergency channel is for distress only. If a channel fails, fall back to the archive link and report the outage; do not improvise a new frequency without Signals confirmation.
+
+7. RULES OF ENGAGEMENT
+Do not engage an unidentified artefact without authorisation. Do not assume a human silhouette is human; verify at a checkpoint. Do not look away from a quantum-locked figure. Do not accept a verbal clearance claim without a record. If an encounter turns hostile, withdraw, contain and report. Preservation of personnel outranks capture of material. The Geneva Protocol remains available if the facility is compromised, and only the duty code releases it.
+
+8. LOGISTICS
+Requisitions for the day shift are due by 10:00. The east service lift remains locked out. Cleaning staff are restricted to the west corridor until further notice. The back-up generator test is scheduled for 14:00 and should not affect the control deck. Spare radio batteries are in the dock store, second drawer. If the third drawer is mentioned in any note, do not open it; there is no third drawer.
+
+9. REPORTING
+Submit a situation report at 12:00 and a handover report at 17:30. Include anchor drift, door status, personnel attestation progress and any anomalous sound or image. Use the standard SITREP export from Command Centre. If nothing has changed, say so plainly; a quiet report is useful. Do not pad the log with speculation.
+
+10. CONTINGENCIES
+If the quarantine fails, activate the Geneva Protocol and move to the assembly point. If the archive link fails, continue local operations and record everything to the virtual filesystem. If the control deck loses power, the anchors have four hours of reserve. If you discover a discrepancy in the roster, report it to Vance and do not attempt to correct the record yourself. If you are uncertain, ask. Uncertainty is survivable; assumption is not.
+
+11. HANDOVER
+Leave the desk tidy, the logs current and the next watch fully briefed. The East Wing is not a mystery to be solved by enthusiasm. It is a sealed problem with a schedule, and the schedule says we hold until relieved.
+
+— KATE STEWART
+CHIEF SCIENTIFIC OFFICER, UNIT`;
+  const DOC_SPECIES = `SPECIES INDEX (ABRIDGED)
+UNIT XENOBIOLOGY ARCHIVE · FIELD REFERENCE 12-C
+
+The following entries are summaries for rapid identification. They are not complete taxonomic records and must not be used as a substitute for a current threat dossier. Threat classes run from one, a curiosity, to five, an existential hazard. Any contact at class four or above requires immediate notification of Control. When identification is uncertain, assume the higher class until a second officer confirms the reading.
+
+DALEK / SKARO — THREAT CLASS 5 — HOSTILE
+The Dalek is a genetically engineered creature housed inside a bonded polycarbide travel machine. The casing is heavily armoured, armed with a directed-energy weapon and a manipulator arm, and protected by an eyestalk that serves as its primary sensor. Daleks are aggressive, hierarchical and utterly convinced of their own superiority. They do not negotiate in good faith. The eyestalk is the recognised weak point, but disabling it does not disable the creature. Expect reinforcements and treat every sighting as a containment emergency.
+
+CYBERMAN / MONDA — THREAT CLASS 5 — CONVERSION
+The Cyberman is a humanoid converted through surgical and cybernetic assimilation. Emotional response is suppressed, and individuality is replaced by a networked consensus. A conversion unit is more dangerous than a single soldier because it creates more of itself. Do not approach a conversion table. Do not accept a claim that a subject is only partially converted. Destroy the conversion unit before engaging the product, and screen all rescued personnel for implants. The absence of visible emotion is not evidence of harmlessness.
+
+SONTARAN / SONTAR — THREAT CLASS 4 — MILITARY
+The Sontaran is a clone soldier from a high-gravity world, bred for an endless war. They are physically strong, disciplined and tactically direct. Their armour protects the torso and head, but the probic vent at the back of the neck is a critical weakness. Sontarans respect strength and despise hesitation. They are unlikely to be interested in negotiation unless it serves a military objective. Avoid close quarters, target the vent if the opportunity is clean, and expect a coordinated response rather than a lone attacker.
+
+ZYGON / UNKNOWN — THREAT CLASS 3 — INFILTRATOR
+The Zygon is a shape-shifter capable of copying a living subject, including voice and apparent memory. Identification is difficult because the copy is physically convincing. The tell is behavioural, not visual: small inconsistencies in routine, knowledge that should not be known, or a refusal to submit to biometric verification. Use the standard identity checkpoint and never accept a verbal clearance claim. A Zygon is not automatically hostile, but an unverified Zygon is an unacceptable risk. Report duplicates rather than confronting them alone.
+
+WEEPING ANGEL — THREAT CLASS 5 — QUANTUM PREDATOR
+The Weeping Angel is a quantum-locked entity that moves only when unobserved. It is stone-like while watched and can cross distance with terrifying speed when sight is broken. Images of an Angel may retain some of its properties, so do not photograph one. Do not blink, do not look away and do not assume a closed door is a barrier. The Angel feeds on temporal potential and may displace a victim into the past rather than kill them. Maintain line of sight and call for containment.
+
+SILURIAN / EARTH — THREAT CLASS 2 — HIBERNATING
+The Silurian is a reptilian species that inhabited Earth before humanity. Most encountered individuals are dormant in hibernation vaults and are not immediately hostile. Their technology is advanced, their territorial claims are serious, and their patience with trespassers is limited. Do not disturb a hibernation chamber. Do not remove artefacts from a vault without authorisation. Negotiation is possible under the correct conditions, but it requires a clear chain of authority and a credible guarantee that the vault will be left alone.
+
+AUTON / NESTENE — THREAT CLASS 4 — SYNTHETIC
+The Auton is a plastic facsimile animated by a Nestene consciousness. It can imitate a human figure, a mannequin or an everyday object, and it is stronger than its appearance suggests. The controlling signal is the real target. Destroying individual Autons without locating the transmitter merely slows the swarm. Check for plastic artefacts in the area, look for a signal source, and expect multiple units to activate at once. A shop window is not automatically harmless.
+
+JUDOON / SHADOW PROCLAMATION — THREAT CLASS 3 — POLICE
+The Judoon are interplanetary law-enforcement officers operating under the Shadow Proclamation. They are literal, procedural and heavily armed. They are not usually interested in local politics; they are interested in compliance and documentation. Produce identification, follow instructions and do not obstruct an arrest. Their jurisdiction can supersede local law, which is a political problem for someone above your clearance. Cooperate, record the incident and notify Control. A Judoon who believes you are resisting is a very immediate problem.
+
+GENERAL RULES
+Treat every unknown as hostile until identified. Preserve distance, preserve witnesses and preserve the record. Do not bring a biological sample into a populated deck. Do not transmit images of a quantum-locked entity. Report all contacts through the Command Centre, including negative results. The absence of a contact is data, but only if it is recorded. Cross-reference the Torchwood Archive for historical incidents, and remember that a previous containment is not a guarantee that the current one will hold.`;
+  const DOC_LOG = `UNITNet 7.4.1 — SYSTEM LOG
+LOCAL SESSION · CONTROL DECK 04-A
+
+05:58:02  Kernel initialised. Firmware checksum accepted.
+05:58:03  Display controller online. Native resolution detected.
+05:58:04  Input bus ready. Keyboard, pointer and touch endpoints registered.
+05:58:05  Audio subsystem initialised in low-latency mode.
+05:58:06  Local storage mounted. Encryption-at-rest not configured on this terminal.
+05:58:07  Storage namespace unitnet: opened.
+05:58:08  Legacy namespace unit7: inspected. No migration required.
+05:58:09  Settings manifest loaded. Accent cyan, wallpaper blueprint.
+05:58:10  Interface sound enabled. Scanline overlay enabled.
+05:58:11  Notification register loaded. Zero unread entries.
+05:58:12  Virtual filesystem mounted at root.
+05:58:13  Directory /ops verified. Two documents present.
+05:58:14  Directory /personnel verified. Roster present.
+05:58:15  Directory /logs verified. System log open for append.
+05:58:16  Directory /downloads verified. Export target writable.
+05:58:17  Document attestation started. Minimum length 500 words.
+05:58:18  /readme.txt — 694 words. PASS.
+05:58:19  /ops/briefing-7741.txt — 815 words. PASS.
+05:58:20  /ops/species-index.txt — 882 words. PASS.
+05:58:21  /logs/system.log — 553 words. PASS.
+05:58:22  Document attestation complete. Four of four passed.
+05:58:23  Application registry opened. Category index built.
+05:58:24  Registered command systems. Readiness dashboard available.
+05:58:25  Registered productivity systems. Files and terminal available.
+05:58:26  Registered creative systems. Canvas and audio context pending user gesture.
+05:58:27  Registered games. Local score tables loaded.
+05:58:28  Registry count: 60 applications. Duplicate identifiers: 0.
+05:58:29  Window manager online. Layer bounds computed.
+05:58:30  Dock constructed. Pinned systems: six.
+05:58:31  Desktop icon grid constructed. Eight shortcuts.
+05:58:32  Control centre prepared. Notification queue empty.
+05:58:33  Command palette indexed. Launcher categories indexed.
+05:58:34  On-screen keyboard prepared. Touch targets sized.
+05:58:35  Session lock armed. Default PIN policy in force.
+05:58:36  Start-up lock disabled by local policy.
+05:58:37  Power manager online. Standby and shutdown available.
+05:58:38  Network interfaces enumerated. External routing disabled.
+05:58:39  Offline mode confirmed. No outbound sockets opened.
+05:58:40  Telemetry disabled. No analytics endpoint configured.
+05:58:41  Radar array calibrated. Sweep interval 2.4 seconds.
+05:58:42  Threat board loaded. Eight species records indexed.
+05:58:43  Torchwood cross-reference linked. Twelve incidents available.
+05:58:44  Personnel roster loaded. Ten active records.
+05:58:45  Secure channel 458.712 MHz established.
+05:58:46  Field Ops channel 461.220 MHz standing by.
+05:58:47  Containment channel 463.905 MHz standing by.
+05:58:48  Emergency channel 450.000 MHz monitored.
+05:58:49  Archive link synchronised. Bandwidth reduced to 62 percent.
+05:58:50  Vault 12 inventory check scheduled for 11:00.
+05:58:51  Temporal anchor A drift 0.21 percent. Within tolerance.
+05:58:52  Temporal anchor B drift 0.19 percent. Within tolerance.
+05:58:53  East Wing quarantine verified. Outer door sealed.
+05:58:54  East Wing inner door powered down. Manual release armed.
+05:58:55  Corridor EA-7 lidar discrepancy remains unresolved.
+05:58:56  Warning: corridor length inconsistent with survey.
+05:58:57  Containment team notified. No entry authorised.
+05:58:58  Blast-door bus self-test passed. Six doors responding.
+05:58:59  Medical bay online. Conversion screening schedule loaded.
+05:59:00  CCTV wall online. Four feeds nominal.
+05:59:01  Satellite uplink degraded. Telemetry only, no command path.
+05:59:02  Weather station online. Local simulation model active.
+05:59:03  Seismic monitor online. Background noise within range.
+05:59:04  Vortex scanner idle. Aperture closed.
+05:59:05  TARDIS telemetry link idle. No materialisation event.
+05:59:06  Archive backup target checked. 1.2 megabytes available.
+05:59:07  Download register loaded. Zero pending exports.
+05:59:08  Recycle bin loaded. Zero recoverable items.
+05:59:09  Diagnostics schedule loaded. Eight tests queued.
+05:59:10  Boot sequence complete. Control deck handed to duty officer.
+06:00:00  Clock synchronised to local time.
+06:00:01  Uptime counter started.
+06:00:02  Session baseline recorded. All systems nominal.
+06:00:03  Awaiting operator input.
+
+END OF BOOT RECORD`;
   const FS_DEFAULT = {
     '/': { type: 'dir' },
     '/ops': { type: 'dir' },
-    '/ops/briefing-7741.txt': { type: 'file', content: 'UNIT OPERATIONS · BRIEFING 7741\n\n1. Maintain the temporal quarantine on the East Wing.\n2. All personnel report to Control Deck at 09:30.\n3. Do not engage unidentified artefacts without authorisation.\n4. The archives are open to clearance level 3 and above.\n\n— DUTY OFFICER, CONTROL DECK 04-A\n' },
-    '/ops/species-index.txt': { type: 'file', content: 'SPECIES INDEX (ABRIDGED)\n\nDALEK / SKARO — threat class 5 — hostile\nCYBERMAN / MONDA — threat class 5 — conversion\nSONTARAN / SONTAR — threat class 4 — military\nZYGON / UNKNOWN — threat class 3 — infiltrator\nWEEPING ANGEL — threat class 5 — quantum predator\nSILURIAN / EARTH — threat class 2 — hibernating\nAUTON / NESTENE — threat class 4 — synthetic\n\nCross-reference: TORCHWOOD ARCHIVE.\n' },
-    '/personnel/roster.csv': { type: 'file', content: 'id,name,rank,clearance,status\nU-001,Alistair Gordon Lethbridge-Stewart,Brigadier,5,ACTIVE\nU-002,Kate Stewart,Chief Scientific Officer,5,ACTIVE\nU-003,Petronella Osgood,Sciences Division,4,ACTIVE\nU-004,Joshua Carter,Signals,3,ACTIVE\nU-005,Marion Vance,Archives,3,ACTIVE\nU-006,Tomas Reyes,Containment,4,ACTIVE\nU-007,Elias Ward,Field Operations,2,ACTIVE\nU-008,Sarah Bell,Medical,3,ACTIVE\n' },
+    '/ops/briefing-7741.txt': { type: 'file', content: DOC_BRIEFING },
+    '/ops/species-index.txt': { type: 'file', content: DOC_SPECIES },
+    '/personnel/roster.csv': { type: 'file', content: 'id,name,rank,division,clearance,status,notes,qualifications,reviewed\nU-001,Alistair Gordon Lethbridge-Stewart,Brigadier,Command,5,ACTIVE,"Founding officer. Retains advisory authority on all containment matters and signs off on level five disclosures. Prefers a concise briefing, expects standing orders to be read before deployment and is available for strategic consultation rather than routine field duty. His knowledge of the early incidents is frequently requested by the archive.","Containment command, temporal awareness, firearms certification, strategic advisory duty, mentor",2026-10-14\nU-002,Kate Stewart,Chief Scientific Officer,Command,5,ACTIVE,"Head of operations and Geneva Protocol signatory. Coordinates the control deck, approves containment entry and chairs the 09:30 briefing. Maintains the East Wing quarantine schedule, reviews anchor drift and is the final authority for level five disclosures. Deputies must confirm all release orders in writing.","Geneva Protocol authority, level five disclosure, operations command, external liaison, media refusal",2026-10-12\nU-003,Petronella Osgood,Sciences Division,Science,4,ACTIVE,"Xenobiology and artefact analysis. Currently examining the Vault 2 scale fragment and the phosphorescent residue from the Loch Ness survey. Clearance upgrade pending. Should not be interrupted during active analysis unless containment requires a scientific opinion. All samples remain in Vault 2 until dual-authorised.","Xenobiology, sealed sample handling, biohazard response, laboratory supervision, sample custody",2026-10-09\nU-004,Joshua Carter,Signals Officer,Signals,3,ACTIVE,"Maintains the 458.712 MHz secure channel, the field-ops fallback and the archive link. Monitors channel discipline, logs outages and tracks unexplained carriers on the emergency band. Reports any signal of unknown origin to Control immediately and keeps the overnight radio watch.","Signals cryptography, radio watch, archive link maintenance, frequency discipline, outage reporting",2026-10-11\nU-005,Marion Vance,Archivist,Archives,3,ACTIVE,"Custodian of the Torchwood cross-reference index and the incident register. Handles identity attestation discrepancies and prepares the weekly archive transfer. Authorised to correct catalogue metadata, but not operational records, without a second signature. Maintains the note under the door file.","Archive custody, attestation audit, metadata correction, cross-reference indexing, transfer preparation",2026-10-07\nU-006,Tomas Reyes,Containment Lead,Containment,4,ACTIVE,"Blast-door authority for the East Wing. Responsible for the door bus, manual releases and quarantine drills. Standing Order 4 applies: no solo entry, regardless of clearance. Reviews the outer and inner door status at every handover and reports drift above tolerance.","Blast-door systems, manual release, confined rescue, quarantine drill instruction, door bus",2026-10-13\nU-007,Elias Ward,Field Operative,Field Operations,2,ACTIVE,"Assigned to the metropolitan patrol. Reports sightings, coordinates cordons and escorts recovered personnel to Medical. Currently cleared for level two material and supervised access to level three sites. Maintains the patrol vehicle inventory and the public-contact log.","Patrol operations, cordon control, first aid, public contact reporting, vehicle inventory",2026-10-08\nU-008,Sarah Bell,Medical Officer,Medical,3,ACTIVE,"Trained in post-conversion triage. Runs the screening schedule, maintains the medical bay and advises on biological containment. Authorised to suspend a deployment on medical grounds. Keeps the implant screening records separate from the general roster.","Conversion triage, implant screening, trauma care, medical suspension authority, bay readiness",2026-10-10\nU-009,Imani Okafor,Logistics,Support,2,ACTIVE,"Moves equipment between the dock store, control deck and containment wing. Tracks spare batteries, filter masks and blast-door tools. Requests for restricted items require countersignature. Coordinates the generator test and the east service lift lockout.","Requisition, hazardous transport, inventory control, generator coordination, lift lockout",2026-10-06\nU-010,Rory Chen,Temporal Studies,Science,4,ACTIVE,"Monitors anchor drift, quarantine compliance and displacement reports. Maintains the East Wing lidar comparison and the corridor sound log. Recommends evacuation if anchor drift exceeds the agreed threshold. Reviews all temporal quarantine orders before release.","Temporal analysis, anchor calibration, lidar survey, evacuation assessment, sound logging",2026-10-05\n' },
     '/logs': { type: 'dir' },
-    '/logs/system.log': { type: 'file', content: 'UNITNet 7.4.1\nBoot sequence verified. All decks nominal.\nSecure channel established on 458.712 MHz.\n' },
-    '/readme.txt': { type: 'file', content: 'UNITNet · OFFLINE DESKTOP\n\nThis terminal runs entirely from local files. No network connection, no cloud services, no telemetry.\n\nKeyboard: Ctrl+K command palette · Ctrl+Space applications · Alt+Tab switch windows · Alt+W close window · Esc dismiss overlays.\nTouch: everything has a tap target; dock, launcher, windows and the on-screen keyboard are all finger-friendly.\n\nAll data is stored in this browser under keys beginning with "unitnet:". Use Backup & Restore to export it.\n' },
+    '/logs/system.log': { type: 'file', content: DOC_LOG },
+    '/readme.txt': { type: 'file', content: DOC_README },
     '/downloads': { type: 'dir' },
   };
+  const EXPANDED_DOC_PATHS = ['/readme.txt', '/ops/briefing-7741.txt', '/ops/species-index.txt', '/logs/system.log'];
+  function upgradeDocs(nodes) {
+    if (store.get('docsExpanded', false)) return;
+    const defaults = JSON.parse(JSON.stringify(FS_DEFAULT));
+    for (const path of EXPANDED_DOC_PATHS) {
+      const node = nodes[path];
+      if (!node || node.type !== 'file') continue;
+      const count = ((node.content || '').match(/\S+/g) || []).length;
+      if (count < 500) nodes[path] = Object.assign({}, defaults[path], { mtime: nowts() });
+    }
+    store.set('docsExpanded', true);
+    store.set(FS_KEY, nodes);
+  }
   function nowts() { return Date.now(); }
   const FS = {
     nodes() {
       let nodes = store.get(FS_KEY, null);
       if (!nodes) { nodes = JSON.parse(JSON.stringify(FS_DEFAULT)); for (const v of Object.values(nodes)) if (v.type === 'file') v.mtime = nowts(); store.set(FS_KEY, nodes); }
+      else upgradeDocs(nodes);
       return nodes;
     },
     save(nodes) { store.set(FS_KEY, nodes); },
@@ -2880,15 +3075,121 @@ html[data-wallpaper="amber"] .wallpaper{ filter:hue-rotate(155deg) saturate(1.25
       { name: 'Control Deck Layout', code: 'CD-04', type: 'FACILITY' },
     ],
     help: [
-      { title: 'Using the desktop', body: 'The dock along the bottom holds pinned systems and every open window. The APPS button opens the full directory. Windows can be dragged by the title bar, resized from the lower-right corner, maximised with the middle header button and closed with the × button. Double-click a title bar to maximise.' },
-      { title: 'Keyboard shortcuts', body: 'Ctrl+K opens the command palette. Ctrl+Space opens the application directory. Alt+Tab cycles windows. Alt+W closes the focused window. Alt+1…6 launches pinned systems. Ctrl+D shows or restores the desktop. Ctrl+Alt+←/→ snaps the focused window. Ctrl+Shift+L locks the session. Escape dismisses overlays and restores a maximised window. F11 toggles fullscreen.' },
-      { title: 'Desktop, icons and control centre', body: 'The desktop icons open with a double-click, or a single tap on touch screens. Right-click the desktop (or press and hold) for the context menu: new note, terminal, wallpaper, window arrangement and session controls. The sliders button in the top bar, or the clock, opens the control centre with brightness, accent, wallpaper, desktop toggles and recent notifications.' },
-      { title: 'Session lock and power', body: 'The lock button, Ctrl+Shift+L or Power → Lock session opens the authentication screen. The default session PIN is 1968; it can be changed in Settings, and start-up locking can be enabled there. The PIN is a themed shell lock stored locally, not disk encryption — anyone with access to the browser profile can read local data.' },
-      { title: 'Touch controls', body: 'Every control has a finger-sized target. Scroll lists with a swipe. Drag windows by their title bar on tablets; on phones windows open fullscreen. The KEYS button in the dock opens a virtual keyboard that types into the focused field. Hold the button in the Weeping Angel monitor to keep line of sight.' },
-      { title: 'Saving and downloads', body: 'Documents, reports, images, spreadsheets, calendar files, audio captures and backups download as real files through the browser. They also appear in the Files application under /downloads and in the Downloads register. Nothing leaves this device.' },
-      { title: 'Data and privacy', body: 'Every byte lives in your browser local storage under keys beginning unitnet:. There is no network traffic, no telemetry and no external request. Use Archive & Backup to export a JSON snapshot, or to restore one on another machine. Data from the earlier unit7: namespace is migrated automatically on first launch.' },
-      { title: 'Geneva Protocol', body: 'The protocol seals the facility. Engagement requires the duty code — the year the taskforce was founded. Once active, the terminal displays a full-screen containment alert; entering the duty code releases the lockdown.' },
-      { title: 'Fault recovery', body: 'If a system fails, close its window and relaunch it. Settings can reset individual panels. Backup & Restore offers a full local-data export; a factory reset clears all unitnet: keys and reloads the shell.' },
+      { title: 'Using the desktop', body: `UNITNet opens with a short boot sequence, then hands you a schematic control deck. If you do not want to wait for the diagnostics, press SKIP in the lower right of the boot screen. The desktop that follows has four working areas. The top bar carries the UNITNet wordmark, the current DEFCON state, the secure-link and offline chips, an uptime counter, an alert badge, the sound toggle, the control-centre button, the clock and the lock button. The workspace in the middle holds the wallpaper, desktop icons, open windows, the sticky note and any overlays. The dock at the bottom holds pinned systems, every open window, the on-screen keyboard, Settings and Power. The sticky note in the upper right is not decoration; tapping it opens the calendar.
+
+There are five ways to launch an application. Double-click a desktop icon, or single-tap it on a touch screen. Press APPS at the left of the dock to open the full application directory. Click a pinned icon in the dock. Press Ctrl+Space anywhere outside a text field to open the launcher, then type to filter and use the arrow keys and Enter. Or press Ctrl+K to open the command palette, which searches applications and shell commands together. The three buttons on the idle panel — Command Centre, All Applications and Field Manual — are shortcuts to the most useful starting points.
+
+The launcher groups every registered system by category. The category tabs run across the top; the search field filters names and descriptions; the footer shows how many results are visible. The command palette is faster when you already know what you want, because it also exposes actions such as showing the desktop, cycling wallpaper, snapping the focused window and locking the session. Both overlays close with Escape or by clicking outside them.
+
+Open windows float above the workspace. Drag a window by its title bar. Resize it from the lower-right corner. The three title-bar buttons minimise, maximise and close; double-clicking the title bar also toggles maximise. Dragging a window to the left or right edge of the screen snaps it to that half, and dragging to the top maximises it. Each open window appears as a chip in the dock; click a chip to focus or minimise that window. Most applications keep one window, so opening the same app again focuses the existing copy rather than creating a duplicate.
+
+Focus follows the window you click. Alt+Tab cycles through open windows, and Alt+W closes the focused one. Ctrl+D hides every window and shows the desktop; pressing it again restores the windows that were hidden. Arrange windows in the palette tiles the open windows neatly. If the workspace feels crowded, minimise what you are not using, close what you have finished with, or use the launcher instead of leaving every app open.
+
+Overlays behave consistently. The launcher, command palette, control centre, context menu, session lock and power screen all sit above the desktop. Escape closes the launcher, palette, context menu or control centre. Clicking outside the quick panel or context menu dismisses it. The session lock and the power screen are deliberately different: they cover the workspace and require an explicit action to leave. The top-bar alert badge opens the control centre, where recent notifications and a link to the full event log are collected.
+
+Settings and application data persist in local storage, so the accent, wallpaper, desktop-icon preference, notes, files, tasks, contacts and downloads survive a reload. Open windows belong to the current session only; after a reload you return to a clean desktop with your data intact. A sensible first run is to open Settings, choose a wallpaper and accent, set a session PIN if you want one, then open Command Centre to see the operational picture.` },
+      { title: 'Keyboard shortcuts', body: `Keyboard control is designed to reach everything without a mouse. Shortcuts are handled at the document level, so they work whether focus is on the desktop, the dock or a window, provided you are not typing into a field that needs the key. Several browser-reserved combinations are intercepted only when the interface has focus; if a shortcut appears to do nothing, click the workspace once and try again.
+
+Ctrl+K, or Command+K on a Mac, opens the command palette. Type part of an application name or a shell command, use the up and down arrows to change the selection, and press Enter to run it. Escape closes the palette. Ctrl+Space opens the full application launcher, which is better when you want to browse by category rather than search. The launcher search field takes focus automatically, so you can start typing immediately.
+
+Alt+Tab moves to the next open window and wraps around at the end. Alt+W closes the focused window. Alt+1 through Alt+6 launch the six pinned systems in dock order. These are convenience shortcuts, not a replacement for the launcher; if a pinned app is already open, the shortcut focuses it rather than opening a second copy.
+
+Ctrl+D hides all open windows to reveal the desktop. Repeat it to restore the windows that were hidden. This is useful when you need to reach a desktop icon that a window is covering. The shortcut is ignored while you are typing in a field, so it will not interfere with text entry. Ctrl+Shift+L locks the session immediately, from any application. Ctrl+Alt+Left and Ctrl+Alt+Right snap the focused window to the left or right half of the workspace, and Ctrl+Alt+Up maximises it. These three combinations are useful on a laptop without a precise pointer.
+
+Escape has layered behaviour. It closes the context menu first, then the control centre, then the command palette, then the launcher. If no overlay is open, it restores a maximised window to its previous size. If the soft keyboard is visible, the HIDE button closes it; Escape may be consumed by the focused field first. F11 requests browser fullscreen, which removes the browser chrome and makes the control deck feel like a dedicated terminal. Press F11 again, or Escape in some browsers, to leave fullscreen.
+
+Inside applications, Enter submits the active field. The terminal executes the typed command on Enter; the calculator evaluates the current expression; search fields filter as you type. The launcher and palette use the arrow keys for selection. The on-screen keyboard has its own SHIFT and HIDE controls. When a shortcut conflicts with a browser command, UNITNet calls preventDefault only for the combinations it handles, so normal browser shortcuts remain available elsewhere. If you use a screen reader or switch device, the same actions are available through buttons and the launcher; the keyboard is an accelerator, not the only route.
+
+Browser versions differ in which combinations they reserve. Chrome, Firefox and Safari may handle fullscreen, tab switching or downloads before the page sees the key. When a shortcut conflicts, the menu route always remains: the dock, the launcher and the control centre expose the same actions. On a laptop with a compact keyboard, some function keys require a manufacturer modifier. Test the handful you rely on, and prefer the visible controls when demonstrating the interface to someone unfamiliar with it. Keyboard focus uses the same cyan outline as the rest of the interface, so tabbing through a window is a practical way to discover controls that are not obvious at a glance.` },
+      { title: 'Desktop, icons and control centre', body: `The desktop icon grid is a shortcut layer, not a second file system. It contains eight systems: Files, Terminal, Notes, Command Centre, Calendar, Gallery, ID Card and Settings. A double-click opens an icon with a mouse; a single tap opens it on a touch screen; Enter or Space opens it when the icon has keyboard focus. Right-clicking an icon opens a small menu with Open, Application Directory, System Settings and Show Desktop. The grid can be hidden entirely in Settings or from the control centre without removing any applications.
+
+Right-clicking empty desktop space, or pressing and holding on touch, opens the desktop context menu. Its items are New Note, Open Terminal, Application Directory, Show Desktop, Arrange Windows, Next Wallpaper, Quick Settings and Lock Session. The menu is positioned inside the workspace and closes when you click elsewhere or press Escape. Right-clicking a window, an overlay, the icon grid, the sticky note, a button or an input does not open the desktop menu; those surfaces keep their own behaviour.
+
+The control centre is the quickest place to change the feel of the terminal. Open it from the sliders button in the top bar, from the clock, or by clicking the alert badge. It contains a session block with LOCK, SETTINGS and SHOW DESKTOP; three system toggles for interface sound, scanlines and desktop icons; a brightness slider; accent swatches; four wallpaper buttons; an on-screen keyboard shortcut; and the five most recent notifications. The notification block also links to the full Event Log and offers a Clear button that empties the notification list without touching the event history.
+
+Brightness is a display filter applied to the interface, not a change to the device's hardware backlight. It runs from 35 to 100 percent and is useful on a dim screen or for a softer look. The accent swatches change the highlight colour used by borders, readouts and active controls. The wallpaper buttons switch between Blueprint, Grid, Dusk and Amber. All three preferences persist in Settings. Interface sound controls the short synthesised cues; scanlines control the CRT overlay; the desktop-icons toggle shows or hides the shortcut grid immediately.
+
+The sticky note in the upper right opens the Calendar when clicked. The top-bar clock also opens the control centre, which is deliberate: the place that shows the time is the place that controls the display. The alert badge counts unread notifications; opening the control centre does not automatically clear the event log. If a panel is open and you click the desktop, the panel closes rather than leaving a stale overlay on top of a window. The same controls are available in the Settings application, where they are grouped with session and storage options.
+
+The icon grid is keyboard reachable as well. Tab moves focus between icons, Enter or Space opens the selected one, and the focus outline makes the current icon clear. Right-clicking an icon selects it before showing its menu, so the menu always refers to the icon you pointed at. On a narrow screen the grid may collapse or hide to leave room for windows; the same applications remain available through the dock and launcher. If you hide the grid but later want it back, the toggle is in both the control centre and Settings. The context menu is deliberately short; it is a quick launcher, not a replacement for the full application directory.` },
+      { title: 'Session lock and power', body: `The session lock protects the control deck from casual use. Open it with the lock button in the top bar, with Power → Lock session, or with Ctrl+Shift+L from anywhere in the interface. The lock screen covers the workspace and shows the current time and date, the duty officer card, a PIN field, an authorisation button, an error line and a hint. The PIN field takes focus shortly after the screen appears, so you can type without clicking. Press Enter or click AUTHORISE to submit.
+
+The default session PIN is 1968. It can be changed in Settings under Desktop & Session. A new PIN must be four to eight digits. The PIN is stored in the same local settings record as the rest of the interface, which means it is convenient but not a cryptographic secret. The lock is a themed shell cover, not disk encryption; anyone who can open the browser's developer tools and read local storage can recover the data without knowing the PIN. Treat it as a way to keep a colleague from casually clicking through your session, not as protection against a determined attacker.
+
+Start-up locking is optional and off by default. Enable LOCK AT START-UP in Settings if you want the lock screen to appear shortly after the boot sequence finishes. With the option off, a normal launch goes straight to the desktop. If you enable it and later forget the PIN, there is no recovery screen. Clearing the site's local storage removes the PIN and the rest of the data with it, so keep a backup if the session matters.
+
+A wrong PIN is rejected with an error message and the field is cleared. The screen does not reveal whether the PIN was close. The hint below the field states that the default is 1968 and should be changed. After a successful unlock, the lock screen disappears, the session resumes and a confirmation toast is shown. The lock does not suspend running applications; clocks, animations and timers continue behind it. It is a visual and input barrier, not a pause button.
+
+The Power menu has three actions. Lock session opens the authentication screen. Restart shell reloads the page after a short delay; local data is retained, but open windows and unsaved interface state are lost. Shut down covers the terminal with a standby screen and changes the resume button to RESTART TERMINAL; it does not power off the device or erase anything. Use the browser's own tab controls if you want to close UNITNet completely.
+
+Locking is a good habit before leaving a shared machine, but it is not a substitute for locking the operating system. The browser profile, the underlying disk and any backups are outside UNITNet's control. The strongest privacy measure in the environment is to keep sensitive material out of local storage, or to export a backup and clear the profile when you are finished.
+
+Change the PIN before enabling start-up locking, and record it somewhere outside the browser. A four-digit PIN is convenient for a demonstration but easy to guess; six or eight digits is a better choice if the screen is visible to others. The lock screen does not show notifications, file names or window titles, which is one reason to use it before stepping away from a shared desk.` },
+      { title: 'Touch controls', body: `UNITNet is usable without a mouse. Buttons, dock tiles, list rows, tabs and window controls all use finger-sized targets, and the layout reflows on narrow screens. The interface does not rely on hover: every action that appears on hover with a mouse is also available through a tap, a long press or a visible button. If you are on a tablet, landscape orientation gives windows more room; on a phone, expect to work one application at a time.
+
+Desktop icons open with a single tap. A long press, roughly half a second, opens the icon menu instead. Long-pressing empty desktop space opens the desktop context menu: new note, terminal, application directory, show desktop, arrange windows, next wallpaper, quick settings and lock. The menu closes when you tap elsewhere. A short drag on the desktop does not open the menu, so you can scroll or reposition without accidentally triggering it.
+
+Windows can be dragged by their title bars with a finger. The lower-right corner is the resize handle. On a small screen the handle is fiddly, so maximising is usually the better choice; the title-bar buttons remain full-size. Dragging a window to the left or right edge snaps it, and dragging to the top maximises it, but edge gestures are easier on a tablet than a phone. The dock chips let you switch windows without hunting for a title bar.
+
+The dock scrolls horizontally when it has more items than fit. Lists inside applications scroll vertically with momentum; the launcher, manual, file manager, event log and archive all use the same pattern. Pull-to-refresh is a browser gesture, not a UNITNet feature, so avoid pulling down from the top of a list unless you want to reload the page.
+
+The on-screen keyboard is the key to text entry on touch devices. Open it with the KEYS button in the dock, or with the keyboard button beside the launcher search field. It types into whichever field currently has focus. Tap a field first, then use the keyboard. SHIFT toggles upper case for the next character, and HIDE closes the keyboard without clearing the field. The keyboard includes letters, digits, punctuation, space, backspace and Enter; for long documents, a hardware keyboard or the device's own keyboard may be faster.
+
+Canvas and game surfaces respond to pointer events, so a finger works as a drawing tool in Sketchpad, a control in the synth, a tile selector in the games and a hold control in the Weeping Angel monitor. In the Angel monitor, keep the button held to maintain line of sight; releasing it lets the simulation advance. In the sequencer, tap steps to toggle them. If a canvas seems unresponsive, tap once inside it to give it focus, and avoid scrolling while drawing.
+
+Finally, use the browser's fullscreen mode if the address bar and tabs take too much room. UNITNet does not request fullscreen automatically, because browsers require a user gesture. Rotate the device after entering fullscreen if the layout needs to reflow. If a control feels too small, the Settings application can hide desktop icons and simplify the workspace, and the launcher provides a single large target for every system.` },
+      { title: 'Saving and downloads', body: `UNITNet produces real files, not simulated ones. When an application offers an export, it builds a Blob in the browser, creates a temporary object URL, and clicks a hidden download link. The browser then saves the file according to its own download settings. No server is involved, and nothing is uploaded. If the browser blocks the download, UNITNet shows a failure toast; allow downloads for the page and try again.
+
+Text exports are also written into the virtual filesystem at /downloads. That gives you two copies: one in the browser's download folder, managed by the browser, and one inside UNITNet, visible in File Manager and readable from the Terminal. Writing to the virtual filesystem can fail if storage is full, but the browser download still proceeds. Deleting the virtual copy does not delete the browser download, and clearing the download register does not remove either file.
+
+The Downloads application keeps a register of recent exports with name, type, size and time. Text exports under the storage limit can be re-issued from the register, which is useful if the original browser download was lost. Large binary exports are recorded by name and size but are not stored in the register; the original file remains the authoritative copy. The register holds a bounded number of entries, so very old records eventually fall off.
+
+Different applications produce different formats. Notepad and most reports produce plain text. Notes and some dossiers can produce Markdown. Grid Sheet and the roster produce CSV. Calendar and the temporal timeline produce ICS. Contacts produce VCF. Sketchpad, the ID card maker, imagery and CCTV produce PNG. Blueprint Gallery produces SVG. Synth Lab and the step sequencer produce WAV. Settings, Archive & Backup and several registers produce JSON. Diagnostics and the event log produce LOG or text reports.
+
+Notepad is the exception to the export rule: notes autosave to local storage as you type, and the editor also offers a text download. The virtual filesystem is separate from Notepad's note list. File Manager can create, rename and delete files and folders, and Terminal commands operate on the same tree. Text written by an export appears in /downloads immediately, so you can open it in File Manager or read it with the terminal's cat command.
+
+File names are sanitised before download: slashes, colons, asterisks, question marks, quotes, angle brackets and pipe characters become hyphens, and runs of whitespace collapse. The browser may add a suffix if a file with the same name already exists. Downloads are limited by the browser's memory and by the size of the Blob; very large canvas images or audio captures can fail on low-memory devices. If an export fails repeatedly, try a smaller canvas, a shorter recording, or a different browser.
+
+Check the browser's download manager if a file seems to have vanished; some browsers save to a default folder without opening it. On managed machines, download restrictions or antivirus prompts may interrupt the save even though the Blob was created. The virtual copy in /downloads is a useful fallback in that case, because it can be read and re-exported from inside the environment. Keep an eye on the Downloads register after a batch of exports; it is the quickest way to confirm what was actually produced.` },
+      { title: 'Data and privacy', body: `Everything UNITNet knows lives in the browser's local storage for the page's origin. Keys use the unitnet: prefix: settings, notes, files, tasks, contacts, calendar events, download records, notifications, event logs and application-specific state. There is no database server, no account system and no synchronisation. Two browsers on the same machine do not share data unless they share a profile, and two devices do not share anything at all.
+
+On first launch the environment migrates keys from the older unit7: namespace into unitnet:. The migration copies values; it does not delete the old keys. If both namespaces contain data, the new namespace wins. The virtual filesystem is seeded on first use with the readme, briefing, species index, roster, system log and folders. Seeded documents are replaced once if they are still shorter than five hundred words, so an expanded copy written by a user is left alone.
+
+Archive & Backup exports a JSON snapshot of every unitnet: key. Keep that file somewhere safe before a factory reset, a browser cleanup or a move to another machine. Restoring a snapshot overwrites keys with the same names; it does not merge records. Import a snapshot only when you are willing to replace the current state. The export can be large if the filesystem contains many downloads, but it is still a local file.
+
+A factory reset clears the unitnet: namespace and reloads the shell. It removes settings, notes, files, tasks, contacts and download records. It does not touch browser downloads that have already been saved outside the page, and it does not touch other sites' storage. There is no undo beyond restoring a snapshot. If you only want to reset the appearance, change the settings individually instead.
+
+Browser storage is not unlimited. Most browsers allow a few megabytes for local storage per origin; large files, long logs and many notes can exhaust it. When a write fails, the interface may continue working while the change is lost on reload. Export important work rather than relying on the browser as the only copy. Private or incognito windows usually discard storage when the window closes, and some browsers restrict storage on file:// pages; serving the folder from localhost gives the most predictable behaviour.
+
+The session PIN is stored with the settings and is not encryption. Local storage is readable by anyone with access to the browser profile, and extensions or developer tools can inspect it. Do not store real secrets, credentials or personal data in UNITNet. The environment is a fictional control deck, not a secure vault. If you need to remove data, use Factory reset and then clear the site's storage from the browser's settings as well.
+
+Local storage is tied to the exact origin. Moving from file:// to http://localhost, changing the port, or opening the standalone file from a different folder can look like data loss because the browser treats each as a separate storage area. Decide which address you will use and stay with it. If you keep the folder in a synchronised cloud directory, remember that the sync service does not copy the browser's local storage; the JSON snapshot is the portable artefact. Export a backup before changing browsers, clearing cookies or running a cleanup tool. Treat the snapshot with the same care as the data it contains.` },
+      { title: 'Geneva Protocol', body: `The Geneva Protocol is UNITNet's facility-wide containment drill. It is available from the Geneva Protocol application and from Command Centre. When engaged, it records a lockdown state, seals the simulated blast doors, restricts communications to the emergency band and raises a full-screen containment alert over the workspace. The alert explains that all doors are sealed and asks for the duty officer code. This is a local simulation; it does not control real doors, radios or devices.
+
+To release the lockdown, enter the duty code in the alert's field and press AUTHORISE, or open the Geneva Protocol application and use its release control. The duty code is the year the taskforce was founded: 1968. The interface's hint says the same thing. A wrong code leaves the alert in place. The code is intentionally simple because the protocol is a demonstration of state handling, not a password system. Do not reuse a real PIN or password here.
+
+Engaging the protocol is deliberately dramatic. The overlay sits above normal windows, so the desktop cannot be used until the code is entered or the page is reloaded. The application's status panel changes from STANDBY to LOCKDOWN ACTIVE, the blast-door indicators change state, and the simulated communications restrictions are described in the interface. The event log records the engagement and release, which makes the protocol useful for testing notifications, overlays and state transitions.
+
+The protocol is not the same as the session lock. The session lock protects the current operator's desktop and uses the session PIN. The Geneva Protocol simulates a facility emergency and uses the duty code. Locking the session does not engage the protocol, and engaging the protocol does not lock the session. You can use both, but the lock screen sits above the protocol alert, so release the lock first if you need to reach the code field.
+
+Use the protocol for drills, demonstrations and testing the overlay stack. It is safe to engage and release repeatedly; it does not delete files or change settings. If you reload the page while the protocol is active, the overlay is rebuilt from the application's stored state when the app is opened again. The state is local to the browser, so another machine will not see your lockdown. The protocol's communications text is fictional and does not transmit anything.
+
+If the duty code is rejected, check that you are entering digits only and that the field is not carrying a leading space from a paste. If the overlay is somehow inaccessible, reload the page; local data is retained. If you are demonstrating the environment to someone else, explain that the alert is a simulation before engaging it, so the full-screen takeover is not mistaken for a real security event.
+
+The protocol records its state in the application's local store, so the status panel remains consistent if you close and reopen the window. It does not lock the virtual filesystem, close other windows or prevent downloads; it is a containment-themed overlay, not a security boundary. In a training session, pair it with the session lock to show the difference between a facility emergency and an operator lock. Always release the protocol before handing the machine to someone else, and check that the status tag has returned to STANDBY.` },
+      { title: 'Fault recovery', body: `Most failures in UNITNet are local to one application. Each window opens inside a fault boundary: if an application throws while rendering or handling an event, the window shows an APPLICATION FAULT panel instead of taking down the whole desktop. Close that window and open the application again. Because most applications keep a single window, reopening focuses the existing copy; if the fault panel persists, close the window first and then relaunch from the dock or launcher.
+
+If the interface itself misbehaves, reload the page. Settings, notes, files and other stored data survive a reload; open windows and unsaved interface state do not. If a particular setting causes the problem, reopen Settings and change it back. The control centre exposes the display and sound toggles without opening the full Settings app, which is useful when the Settings window is the thing that is failing. Escape closes overlays if one is stuck on top of the workspace.
+
+Diagnostics runs eight self-tests covering the application registry, storage, virtual filesystem, download support, canvas, audio, clock and event logging. A failing test names the subsystem and produces a report you can export. The Event Log records system, security, export and error entries; filter it by kind to find the first failure rather than the cascade that followed. System Monitor shows frame rate, heap usage and uptime if the interface feels slow.
+
+If a download does not appear, check the browser's download permission and its download shelf or folder. A blocked download usually produces a failure toast; allow downloads for the page and retry. Canvas exports require canvas support and enough memory. Audio recording requires a user gesture before the audio context can start; press the relevant record or play button rather than expecting automatic capture. Clipboard actions may require permission and a secure context.
+
+If data appears to be missing, first check that you are in the same browser and profile. Local storage is per origin: opening the source folder at a different address, or opening the standalone file from a different path, can produce a different storage area. Export a backup from the working copy before experimenting. If a write failed because storage was full, free space by deleting old downloads or notes, then retry. If the page was in private browsing, the data may already be gone.
+
+For a clean recovery, export Archive & Backup, then use Factory reset. That clears the unitnet: namespace and reloads the shell. Restore the snapshot only if you want the old state back. If the standalone file will not open, confirm that JavaScript is enabled and that the file was saved completely; if the source version has no styling, keep the styles and js folders beside index.html or use the single-file build. No recovery step can restore data that the browser has already discarded.
+
+Prevention is simpler than recovery. Keep exports of work you care about, avoid clearing site data casually, and test a restore into the same browser before relying on a backup. When reporting a fault, note the application, the action that triggered it and the first relevant event-log entry; that triad is usually enough to reproduce the problem. A reload clears transient interface state, so try it before more invasive steps.` },
     ],
     channels: [
       { id: 'CH-1', name: 'Control Deck', freq: '458.712', desc: 'Primary secure command channel.' },
@@ -6039,7 +6340,7 @@ html[data-wallpaper="amber"] .wallpaper{ filter:hue-rotate(155deg) saturate(1.25
       }
       function renderDetail() {
         detail.innerHTML = '';
-        detail.append(h('div', { class: 'big sm' }, selected.title), h('div', { class: 'divider' }), h('p', { style: { fontSize: '12px', lineHeight: '1.7' } }, selected.body),
+        detail.append(h('div', { class: 'big sm' }, selected.title), h('div', { class: 'divider' }), h('div', { style: { fontSize: '12px', lineHeight: '1.7', whiteSpace: 'pre-line' } }, selected.body),
           selected.title === 'Keyboard shortcuts' ? h('div', { class: 'grid2' },
             ...[['Ctrl / ⌘ + K', 'Command palette'], ['Ctrl / ⌘ + Space', 'Applications'], ['Alt + Tab', 'Switch windows'], ['Alt + W', 'Close window'], ['Alt + 1…6', 'Pinned systems'], ['Esc', 'Dismiss overlay'], ['F11', 'Fullscreen']].map(([k, v]) => h('div', { class: 'row between' }, h('kbd', {}, k), h('span', { class: 'micro' }, v)))
           ) : null,
